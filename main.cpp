@@ -1,68 +1,24 @@
 #include <bits/stdc++.h>
+
+#include "arrange.hpp"
+#include "berth.hpp"
+#include "boat.hpp"
+#include "command.hpp"
+#include "navigation.hpp"
+#include "robot.hpp"
+
 using namespace std;
 
-const int n = 200;
-const int robot_num = 10;
-const int berth_num = 10;
-const int N = 210;
+extern const int n = 200, N = 210;
+extern const int robot_num = 10;
+extern const int berth_num = 10;
 
-struct Robot {
-  int x, y, goods;
-  int status;
-  int mbx, mby;
-  Robot() {}
-  Robot(int startX, int startY) {
-    x = startX;
-    y = startY;
-  }
-} robot[robot_num + 10];
+Berth berth[berth_num + 10];
+Robot robot[robot_num + 10];
+Boat boat[10];
+Command CmdList[105];
 
-struct Berth {              // Berth to berth 50000 frames.
-  unsigned x;               // [x, x + 3]
-  unsigned y;               // [y, y + 3]
-  unsigned transport_time;  // berth <-> dest
-  unsigned loading_speed;   // Obj per frame
-  unsigned Obj              // Number of objects
-  Berth() {}
-  Berth(unsigned x, unsigned y, unsigned transport_time,
-        unsigned loading_speed) {
-    this->x = x;
-    this->y = y;
-    this->transport_time = transport_time;
-    this->loading_speed = loading_speed;
-  }
-} berth[berth_num + 10];
-
-struct Boat {
-  unsigned num;
-  int pos;          //-1 For destination
-  unsigned status;  // 0 for moving, 1 for loading or available, 2 for queuing
-} boat[10];
-
-struct Command {
-  unsigned Type;  // 0: Move, 1: Get, 2: Pull, 3: Ship, 4: Go
-  int Arg1, Arg2;
-  inline void Prt() {
-    switch (Type) {
-      case 0:
-        printf("move %d %d\n", Arg1, Arg2);
-        break;
-      case 1:
-        printf("get %d\n", Arg1);
-        break;
-      case 2:
-        printf("pull %d\n", Arg1);
-        break;
-      case 3:
-        printf("ship %d %d\n", Arg1, Arg2);
-        break;
-      case 4:
-        printf("go %d\n", Arg1);
-        break;
-    }
-  }
-} CmdList[105], CntCmd;
-
+unsigned CntCmd;
 int money, boat_capacity, Frameid;
 char ch[N][N];  //'.'land, '*', '#', Don't across
 int gds[N][N];
@@ -111,3 +67,6 @@ int main() {
 
   return 0;
 }
+/*
+g++ main.cpp -o main
+*/
