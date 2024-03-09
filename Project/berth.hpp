@@ -4,9 +4,6 @@
 
 using namespace std;
 
-extern const int n, N;
-extern const int berth_num;
-
 struct Berth {              // Berth to berth 50000 frames.
   unsigned x;               // [x, x + 3]
   unsigned y;               // [y, y + 3]
