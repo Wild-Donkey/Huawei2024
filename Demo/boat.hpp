@@ -15,13 +15,16 @@ struct Boat {
   unsigned when_to_go;
   void Pick() {
     unsigned Mx(0), Bth(0);
+    fprintf(stderr, "Boat %u Pick\n", num);
     for (unsigned i(0); i < berth_num; ++i) {
-      if (berth[i].when_available <= Frameid + berth[i].transport_time) {
+      if (berth[i].when_available < Frameid + berth[i].transport_time) {
         if (Mx <= berth[i].Sum) Bth = i, Mx = berth[i].Sum;
       }
     }
-    berth[Bth].when_available =
-        Frameid + berth[Bth].transport_time + berth[Bth].loading_time;
+    fprintf(stderr, "Pick %u Val %u Arrive at %u\n", Bth, berth[Bth].Sum,
+            Frameid + berth[Bth].transport_time);
+    when_to_go = berth[Bth].when_available =
+        Frameid + berth[Bth].transport_time + berth[Bth].loading_time + 1;
     printf("ship %u %u\n", num, Bth);
   }
 };
