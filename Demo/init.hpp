@@ -16,7 +16,11 @@ void BerthRoute() {  // 1234:RLUD
   for (unsigned i(0); i < berth_num; ++i) {
     for (unsigned x(berth[i].x + 3); x >= berth[i].x; --x)
       for (unsigned y(berth[i].y + 3); y >= berth[i].y; --y)
-        a.push({x, y}), berthRoute[x][y] = 10 + i;
+        berthRoute[x][y] = 10 + i;
+    a.push({berth[i].x, berth[i].y});
+    a.push({berth[i].x + 3, berth[i].y});
+    a.push({berth[i].x, berth[i].y + 3});
+    a.push({berth[i].x + 3, berth[i].y + 3});
   }
   while (a.size()) {
     unsigned Curx(a.front().first), Cury(a.front().second);
@@ -25,10 +29,6 @@ void BerthRoute() {  // 1234:RLUD
         (!berthRoute[Curx + 1][Cury])) {
       berthRoute[Curx + 1][Cury] = 3, a.push({Curx + 1, Cury});
     }
-    if ((ch[Curx - 1][Cury] == '.' || ch[Curx - 1][Cury] == 'A') &&
-        (!berthRoute[Curx - 1][Cury])) {
-      berthRoute[Curx - 1][Cury] = 4, a.push({Curx - 1, Cury});
-    }
     if ((ch[Curx][Cury - 1] == '.' || ch[Curx][Cury - 1] == 'A') &&
         (!berthRoute[Curx][Cury - 1])) {
       berthRoute[Curx][Cury - 1] = 1, a.push({Curx, Cury - 1});
@@ -36,6 +36,10 @@ void BerthRoute() {  // 1234:RLUD
     if ((ch[Curx][Cury + 1] == '.' || ch[Curx][Cury + 1] == 'A') &&
         (!berthRoute[Curx][Cury + 1])) {
       berthRoute[Curx][Cury + 1] = 2, a.push({Curx, Cury + 1});
+    }
+    if ((ch[Curx - 1][Cury] == '.' || ch[Curx - 1][Cury] == 'A') &&
+        (!berthRoute[Curx - 1][Cury])) {
+      berthRoute[Curx - 1][Cury] = 4, a.push({Curx - 1, Cury});
     }
   }
   /*

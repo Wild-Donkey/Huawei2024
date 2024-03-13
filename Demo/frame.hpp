@@ -56,7 +56,8 @@ void Play() {
   for (unsigned i(0); i < robot_num; ++i) {
     if (robot[i].status) {
       robot[i].Go(robot[i].SearchBerth());
-      if (robot[i].InBerth()) robot[i].Drop();
+      if (robot[i].InBerth())
+        robot[i].Drop(), robot[i].Go(robot[i].SearchGood());
     } else {
       robot[i].Go(robot[i].SearchGood());
       continue;

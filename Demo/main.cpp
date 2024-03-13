@@ -34,6 +34,6 @@ int main() {
 /*
 g++ main.cpp -o main
 .\PreliminaryJudge.exe -m maps\map1.txt -l NONE .\Demo\main.exe
-.\PreliminaryJudge.exe -m maps\map1.txt .\Demo\main.exe
+.\PreliminaryJudge.exe -m maps\map1.txt -d .\Log.txt .\Demo\main.exe
 
 */
