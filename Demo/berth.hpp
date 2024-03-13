@@ -26,6 +26,7 @@ struct Berth {              // Berth to berth 50000 frames.
   }
   void Input() {
     scanf("%u%u%u%u", &x, &y, &transport_time, &loading_speed);
+    ++x, ++y;
     loading_time = (boat_capacity + (loading_speed - 1)) / loading_speed;
     when_available = 0;
   }
@@ -34,13 +35,13 @@ struct Berth {              // Berth to berth 50000 frames.
     for (unsigned i(boat_capacity); i && Obj.size(); --i, Obj.pop())
       Sum += Obj.front();
   }
-  void Get(unsigned x) {
+  void Get(unsigned Val) {
     ++GodNum;
     if (GodNum < boat_capacity) {
-      Sum += x;
+      Sum += Val;
       return;
     }
-    Obj.push(x);
+    Obj.push(Val);
   }
 };
 #endif

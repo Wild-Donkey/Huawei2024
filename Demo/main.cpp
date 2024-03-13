@@ -5,8 +5,9 @@
 #include <bits/stdc++.h>
 
 unsigned money, boat_capacity, Frameid;
-char ch[Size + 10][Size + 10];  //'.'land, '*', '#', Don't across
-unsigned gds[Size + 10][Size + 10];
+char ch[Size + 10][Size + 10];          //'.'land, '*', '#', Don't across
+unsigned gds[Size + 10][Size + 10];     // Goods values
+char berthRoute[Size + 10][Size + 10];  // Dire to nearest birth
 
 #include "berth.hpp"
 Berth berth[berth_num];
@@ -14,6 +15,8 @@ Berth berth[berth_num];
 Robot robot[robot_num];
 #include "boat.hpp"
 Boat boat[10];
+#include "object.hpp"
+queue<Object> Objects;
 #include "arrange.hpp"
 #include "command.hpp"
 #include "frame.hpp"
@@ -30,4 +33,7 @@ int main() {
 }
 /*
 g++ main.cpp -o main
+.\PreliminaryJudge.exe -m maps\map1.txt -l NONE .\Demo\main.exe
+.\PreliminaryJudge.exe -m maps\map1.txt .\Demo\main.exe
+
 */
