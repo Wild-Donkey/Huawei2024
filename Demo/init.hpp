@@ -10,6 +10,7 @@ extern Berth berth[berth_num];
 extern Boat boat[10];
 extern char ch[Size + 10][Size + 10];
 extern char berthRoute[Size + 10][Size + 10];
+extern short RobotFrame[Size + 10][Size + 10];
 
 void BerthRoute() {  // 1234:RLUD
   queue<pair<unsigned, unsigned> > a;
@@ -54,7 +55,11 @@ void BerthRoute() {  // 1234:RLUD
 }
 
 void Init() {
-  for (unsigned i(1); i <= Size; i++) scanf("%s", ch[i] + 1);  // Map [1, n]
+  for (unsigned i(1); i <= Size; i++) {
+    scanf("%s", ch[i] + 1);  // Map [1, n]
+    for (unsigned j(1); j <= Size; ++j)
+      if (ch[i][j] == 'A') ch[i][j] = '.';
+  }
   for (unsigned i(0); i < robot_num; i++) robot[i].Num = i, robot[i].Land = '.';
   for (unsigned i(0); i < 5; i++) boat[i].when_to_go = 0, boat[i].num = i;
   for (unsigned i(0); i < berth_num; i++) {

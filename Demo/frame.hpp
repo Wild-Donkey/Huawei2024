@@ -11,6 +11,7 @@ extern Boat boat[10];
 extern queue<Object> Objects;
 Command CmdList[105];
 unsigned CntCmd;
+extern short RobotFrame[Size + 10][Size + 10];
 
 void Input() {
   scanf("%u%u", &Frameid, &money);
@@ -28,10 +29,9 @@ void Input() {
   }
   for (unsigned i = 0; i < robot_num; i++) {
     unsigned Recover, State;
-    swap(ch[robot[i].x][robot[i].y], robot[i].Land);
     scanf("%u%u%u%u", &State, &robot[i].x, &robot[i].y, &Recover);
     robot[i].status = State, ++(robot[i].x), ++(robot[i].y);
-    swap(ch[robot[i].x][robot[i].y], robot[i].Land);
+    RobotFrame[robot[i].x][robot[i].y] = Frameid;
   }
   for (int i = 0; i < 5; i++) scanf("%d%d\n", &boat[i].status, &boat[i].pos);
   char okk[100];

@@ -5,9 +5,10 @@
 #include <bits/stdc++.h>
 
 unsigned money, boat_capacity, Frameid;
-char ch[Size + 10][Size + 10];          //'.'land, '*', '#', Don't across
-unsigned gds[Size + 10][Size + 10];     // Goods values
-char berthRoute[Size + 10][Size + 10];  // Dire to nearest birth
+char ch[Size + 10][Size + 10];           //'.'land, '*', '#', Don't across
+unsigned gds[Size + 10][Size + 10];      // Goods values
+char berthRoute[Size + 10][Size + 10];   // Dire to nearest birth
+short RobotFrame[Size + 10][Size + 10];  // Robot here before this frame
 
 #include "berth.hpp"
 Berth berth[berth_num];
