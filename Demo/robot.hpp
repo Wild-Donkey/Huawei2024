@@ -11,6 +11,7 @@ extern unsigned ValAvr;
 
 const char Delta[4][2] = {{0, 1}, {0, -1}, {-1, 0}, {1, 0}};
 const char Dire[5] = "RLUD";
+char Order[4] = {0, 1, 2, 3};
 
 inline char check(unsigned x,
                   unsigned y) {  // 0: Land, 1: Don't, 2: Good, 3: Berth
@@ -62,18 +63,13 @@ struct Robot {
     memset(Cur, 0, sizeof(Cur));
     queue<pair<unsigned, unsigned> > a;
     Cur[x][y] = 5;
-    if ((ch[x][y + 1] == '.' || ch[x][y + 1] == 'B') &&
-        (RobotFrame[x][y + 1] < Frameid))
-      Cur[x][y + 1] = 1, a.push({x, y + 1});
-    if ((ch[x][y - 1] == '.' || ch[x][y - 1] == 'B') &&
-        (RobotFrame[x][y - 1] < Frameid))
-      Cur[x][y - 1] = 2, a.push({x, y - 1});
-    if ((ch[x - 1][y] == '.' || ch[x - 1][y] == 'B') &&
-        (RobotFrame[x - 1][y] < Frameid))
-      Cur[x - 1][y] = 3, a.push({x - 1, y});
-    if ((ch[x + 1][y] == '.' || ch[x + 1][y] == 'B') &&
-        (RobotFrame[x + 1][y + 1] < Frameid))
-      Cur[x + 1][y] = 4, a.push({x + 1, y});
+    random_shuffle(Order, Order + 4);
+    for (char i(3); ~i; --i) {
+      unsigned Newx(x + Delta[Order[i]][0]), Newy(y + Delta[Order[i]][1]);
+      if ((ch[Newx][Newy] == '.' || ch[Newx][Newy] == 'B') &&
+          (RobotFrame[Newx][Newy] < Frameid))
+        Cur[Newx][Newy] = Order[i] + 1, a.push({Newx, Newy});
+    }
     while (a.size()) {
       unsigned Curx(a.front().first), Cury(a.front().second);
       // fprintf(stderr, "Cur (%u, %u)\n", Curx, Cury);
@@ -81,19 +77,19 @@ struct Robot {
       if (gds[Curx][Cury] >= ValAvr) return CurDire - 1;
       a.pop();
       if ((ch[Curx][Cury + 1] == '.' || ch[Curx][Cury + 1] == 'B') &&
-          (!Cur[Curx][Cury + 1]) && (RobotFrame[Curx][Cury + 1] < Frameid)) {
+          (!Cur[Curx][Cury + 1])) {
         Cur[Curx][Cury + 1] = CurDire, a.push({Curx, Cury + 1});
       }
       if ((ch[Curx][Cury - 1] == '.' || ch[Curx][Cury + 1] == 'B') &&
-          (!Cur[Curx][Cury - 1]) && (RobotFrame[Curx][Cury - 1] < Frameid)) {
+          (!Cur[Curx][Cury - 1])) {
         Cur[Curx][Cury - 1] = CurDire, a.push({Curx, Cury - 1});
       }
       if ((ch[Curx - 1][Cury] == '.' || ch[Curx][Cury + 1] == 'B') &&
-          (!Cur[Curx - 1][Cury]) && (RobotFrame[Curx - 1][Cury] < Frameid)) {
+          (!Cur[Curx - 1][Cury])) {
         Cur[Curx - 1][Cury] = CurDire, a.push({Curx - 1, Cury});
       }
       if ((ch[Curx + 1][Cury] == '.' || ch[Curx][Cury + 1] == 'B') &&
-          (!Cur[Curx + 1][Cury]) && (RobotFrame[Curx + 1][Cury] < Frameid)) {
+          (!Cur[Curx + 1][Cury])) {
         Cur[Curx + 1][Cury] = CurDire, a.push({Curx + 1, Cury});
       }
     }
