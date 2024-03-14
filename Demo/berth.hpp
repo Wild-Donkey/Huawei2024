@@ -15,6 +15,7 @@ struct Berth {              // Berth to berth 50000 frames.
   unsigned when_available;  // frame that available
   unsigned GodNum;          // Numbers of goods;
   unsigned Sum;             // Sum of the pre boat_capacity goods
+  char Use_or_Not;          // Use or Not
   queue<unsigned> Obj;      // Goods that can't be loaded at once
   Berth() {}
   Berth(unsigned x, unsigned y, unsigned transport_time,
@@ -29,6 +30,7 @@ struct Berth {              // Berth to berth 50000 frames.
     ++x, ++y;
     loading_time = (boat_capacity + (loading_speed - 1)) / loading_speed;
     when_available = 0;
+    Use_or_Not = 1;
   }
   void Udt() {
     Sum = 0, GodNum = Obj.size();

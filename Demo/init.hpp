@@ -14,15 +14,16 @@ extern short RobotFrame[Size + 10][Size + 10];
 
 void BerthRoute() {  // 1234:RLUD
   queue<pair<unsigned, unsigned> > a;
-  for (unsigned i(0); i < berth_num; ++i) {
-    for (unsigned x(berth[i].x + 3); x >= berth[i].x; --x)
-      for (unsigned y(berth[i].y + 3); y >= berth[i].y; --y)
-        berthRoute[x][y] = 10 + i;
-    a.push({berth[i].x, berth[i].y});
-    a.push({berth[i].x + 3, berth[i].y});
-    a.push({berth[i].x, berth[i].y + 3});
-    a.push({berth[i].x + 3, berth[i].y + 3});
-  }
+  for (unsigned i(0); i < berth_num; ++i)
+    if (berth[i].Use_or_Not) {
+      for (unsigned x(berth[i].x + 3); x >= berth[i].x; --x)
+        for (unsigned y(berth[i].y + 3); y >= berth[i].y; --y)
+          berthRoute[x][y] = 10 + i;
+      a.push({berth[i].x, berth[i].y});
+      a.push({berth[i].x + 3, berth[i].y});
+      a.push({berth[i].x, berth[i].y + 3});
+      a.push({berth[i].x + 3, berth[i].y + 3});
+    }
   while (a.size()) {
     unsigned Curx(a.front().first), Cury(a.front().second);
     a.pop();
@@ -62,11 +63,17 @@ void Init() {
   }
   for (unsigned i(0); i < robot_num; i++) robot[i].Num = i, robot[i].Land = '.';
   for (unsigned i(0); i < 5; i++) boat[i].when_to_go = 0, boat[i].num = i;
+  pair<unsigned, unsigned> AllTime[10];
   for (unsigned i(0); i < berth_num; i++) {
     unsigned Berid;
     scanf("%u", &Berid);
     berth[Berid].Input();
+    AllTime[i] = {berth[Berid].transport_time, i};
   }
+  sort(AllTime, AllTime + 10);
+  berth[AllTime[9].second].Use_or_Not = 0;
+  berth[AllTime[8].second].Use_or_Not = 0;
+  berth[AllTime[7].second].Use_or_Not = 0;
   BerthRoute();
   scanf("%d", &boat_capacity);  // Same capacity
   char okk[100];
