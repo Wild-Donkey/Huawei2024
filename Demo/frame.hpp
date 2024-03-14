@@ -6,6 +6,7 @@
 using namespace std;
 
 extern unsigned money, boat_capacity, Frameid;
+extern unsigned GoodValSum, GoodSum, ValAvr;
 extern Robot robot[robot_num];
 extern Boat boat[10];
 extern queue<Object> Objects;
@@ -20,9 +21,10 @@ void Input() {
   for (int i = 1; i <= ObjNum; i++) {
     unsigned ox, oy, val;
     scanf("%u%u%u", &ox, &oy, &val);
-    gds[ox + 1][oy + 1] = val;
+    GoodValSum += (gds[ox + 1][oy + 1] = val);
     Objects.push((Object){Frameid + 1000, ox + 1, oy + 1});
   }
+  GoodSum += ObjNum, ValAvr = GoodValSum / (GoodSum + 1);
   while (Objects.size() && Objects.front().DisappearFrame <= Frameid) {
     gds[Objects.front().x][Objects.front().y] = 0;
     Objects.pop();

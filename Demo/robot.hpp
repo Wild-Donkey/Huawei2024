@@ -7,6 +7,7 @@ using namespace std;
 extern char ch[Size + 10][Size + 10];
 extern unsigned gds[Size + 10][Size + 10];
 extern short RobotFrame[Size + 10][Size + 10];
+extern unsigned ValAvr;
 
 const char Delta[4][2] = {{0, 1}, {0, -1}, {-1, 0}, {1, 0}};
 const char Dire[5] = "RLUD";
@@ -51,7 +52,7 @@ struct Robot {
   }
   char SearchGood() {  // 0123: RLUD, 4: Stop
     // fprintf(stderr, "%u SearchGood (%u, %u)\n", Num, x, y);
-    if (gds[x][y] > 0) {
+    if (gds[x][y] >= ValAvr) {
       Get();
       Good = gds[x][y];
       gds[x][y] = 0;
@@ -77,7 +78,7 @@ struct Robot {
       unsigned Curx(a.front().first), Cury(a.front().second);
       // fprintf(stderr, "Cur (%u, %u)\n", Curx, Cury);
       char CurDire(Cur[Curx][Cury]);
-      if (gds[Curx][Cury] > 0) return CurDire - 1;
+      if (gds[Curx][Cury] >= ValAvr) return CurDire - 1;
       a.pop();
       if ((ch[Curx][Cury + 1] == '.' || ch[Curx][Cury + 1] == 'B') &&
           (!Cur[Curx][Cury + 1]) && (RobotFrame[Curx][Cury + 1] < Frameid)) {

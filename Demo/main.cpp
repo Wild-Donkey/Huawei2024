@@ -5,6 +5,7 @@
 #include <bits/stdc++.h>
 
 unsigned money, boat_capacity, Frameid;
+unsigned GoodValSum, GoodSum, ValAvr;
 char ch[Size + 10][Size + 10];           //'.'land, '*', '#', Don't across
 unsigned gds[Size + 10][Size + 10];      // Goods values
 char berthRoute[Size + 10][Size + 10];   // Dire to nearest birth
