@@ -49,7 +49,7 @@ void Play() {
         boat[i].Pick();
       else if (Frameid >= boat[i].when_to_go) {
         berth[boat[i].pos].Udt();
-        fprintf(stderr, "Boat %u Go %u At %u\n", i, boat[i].pos, Frameid);
+        fprintf(stderr, "Frame %u Boat %u Go %u\n", Frameid, i, boat[i].pos);
         printf("go %u\n", i);
         break;
       }

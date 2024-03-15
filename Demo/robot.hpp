@@ -30,7 +30,7 @@ struct Robot {
     ++CntStep;
     unsigned Newx(x + Delta[Dire][0]), Newy(y + Delta[Dire][1]);
     if (RobotFrame[Newx][Newy] >= Frameid) {
-      fprintf(stderr, "Bot %u Turn %u\n", Num, CntStep);
+      // fprintf(stderr, "Bot %u Turn %u\n", Num, CntStep);
       return Go((Dire + 1) & 3);
     }
     RobotFrame[Newx][Newy] = Frameid + 1;

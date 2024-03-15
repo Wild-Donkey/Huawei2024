@@ -78,6 +78,11 @@ void Init() {
   berth[AllTime[7].second].Use_or_Not = 0;
   BerthRoute();
   scanf("%d", &boat_capacity);  // Same capacity
+  for (unsigned i(0); i < berth_num; i++) {
+    berth[i].Init();
+    fprintf(stderr, "Berth %u Travel %u Load %u\n", i, berth[i].transport_time,
+            berth[i].loading_time);
+  }
   char okk[100];
   scanf("%s", okk);
   printf("OK\n");
