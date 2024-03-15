@@ -54,16 +54,14 @@ void Play() {
         break;
       }
     }
-  for (unsigned i(0); i < robot_num; ++i) {
+  for (unsigned i(0); i < robot_num; ++i)
+    if (!robot[i].status) robot[i].Go(robot[i].SearchGood());
+  for (unsigned i(0); i < robot_num; ++i)
     if (robot[i].status) {
       robot[i].Go(robot[i].SearchBerth());
       if (robot[i].InBerth())
         robot[i].Drop(), robot[i].Go(robot[i].SearchGood());
-    } else {
-      robot[i].Go(robot[i].SearchGood());
-      continue;
     }
-  }
   for (unsigned i(1); i <= CntCmd; ++i) CmdList[i].Prt();
   puts("OK");
   fflush(stdout);

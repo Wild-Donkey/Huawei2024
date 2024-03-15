@@ -56,12 +56,14 @@ void BerthRoute() {  // 1234:RLUD
 }
 
 void Init() {
-  for (unsigned i(1); i <= Size; i++) {
+  for (unsigned i(1); i <= Size; ++i) {
     scanf("%s", ch[i] + 1);  // Map [1, n]
-    for (unsigned j(1); j <= Size; ++j)
+    for (unsigned j(1); j <= Size; ++j) {
       if (ch[i][j] == 'A') ch[i][j] = '.';
+      if ((ch[i][j] ^ '.') && (ch[i][j] ^ 'B')) RobotFrame[i][j] = 32767;
+    }
   }
-  for (unsigned i(0); i < robot_num; i++) robot[i].Num = i, robot[i].Land = '.';
+  for (unsigned i(0); i < robot_num; i++) robot[i].Num = i;
   for (unsigned i(0); i < 5; i++) boat[i].when_to_go = 0, boat[i].num = i;
   pair<unsigned, unsigned> AllTime[10];
   for (unsigned i(0); i < berth_num; i++) {

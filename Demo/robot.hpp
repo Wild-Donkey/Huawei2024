@@ -12,30 +12,30 @@ extern unsigned ValAvr;
 const char Delta[4][2] = {{0, 1}, {0, -1}, {-1, 0}, {1, 0}};
 const char Dire[5] = "RLUD";
 char Order[4] = {0, 1, 2, 3};
-
-inline char check(unsigned x,
-                  unsigned y) {  // 0: Land, 1: Don't, 2: Good, 3: Berth
-  if (gds[x][y] > 0) return 2;
-  if (ch[x][y] == '.') return 0;
-  if (ch[x][y] == 'B') return 3;
-  return 1;
-}
+char CntStep = 0;
 
 struct Robot {
   unsigned x, y, Good, Num;
-  char status, Land;
+  char status;
   Robot() {}
   Robot(unsigned startX, unsigned startY) {
     x = startX;
     y = startY;
   }
-  inline void Go(unsigned Dire) {  // 0123: RLUD
-    if (Dire < 4) {
-      unsigned Newx(x + Delta[Dire][0]), Newy(y + Delta[Dire][1]);
-      if (RobotFrame[Newx][Newy] >= Frameid) return;
-      RobotFrame[Newx][Newy] = Frameid + 1;
-      printf("move %u %u\n", Num, Dire);
+  void Go(unsigned Dire) {  // 0123: RLUD
+    if (Dire > 3 || CntStep > 3) {
+      CntStep = 0;
+      return;
     }
+    ++CntStep;
+    unsigned Newx(x + Delta[Dire][0]), Newy(y + Delta[Dire][1]);
+    if (RobotFrame[Newx][Newy] >= Frameid) {
+      fprintf(stderr, "Bot %u Turn %u\n", Num, CntStep);
+      return Go((Dire + 1) & 3);
+    }
+    RobotFrame[Newx][Newy] = Frameid + 1;
+    printf("move %u %u\n", Num, Dire);
+    RobotFrame[x][y] = 0, CntStep = 0;
   }
   inline void Get() { printf("get %u\n", Num); }
   inline void Drop() {
@@ -66,8 +66,7 @@ struct Robot {
     random_shuffle(Order, Order + 4);
     for (char i(3); ~i; --i) {
       unsigned Newx(x + Delta[Order[i]][0]), Newy(y + Delta[Order[i]][1]);
-      if ((ch[Newx][Newy] == '.' || ch[Newx][Newy] == 'B') &&
-          (RobotFrame[Newx][Newy] < Frameid))
+      if (RobotFrame[Newx][Newy] < Frameid)
         Cur[Newx][Newy] = Order[i] + 1, a.push({Newx, Newy});
     }
     while (a.size()) {
