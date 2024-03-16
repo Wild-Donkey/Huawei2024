@@ -41,7 +41,6 @@ void Input() {
 }
 void Play() {
   Input();
-  // fprintf(stderr, "Here Frame %u\n", Frameid);
   CntCmd = 0;
   for (unsigned i(0); i < 5; ++i)
     if (boat[i].status == 1) {
@@ -49,13 +48,15 @@ void Play() {
         boat[i].Pick();
       else if (Frameid >= boat[i].when_to_go) {
         berth[boat[i].pos].Udt();
-        fprintf(stderr, "Frame %u Boat %u Go %u\n", Frameid, i, boat[i].pos);
+        // fprintf(stderr, "Frame %u Boat %u Go %u\n", Frameid, i, boat[i].pos);
         printf("go %u\n", i);
         break;
       }
     }
   for (unsigned i(0); i < robot_num; ++i)
     if (!robot[i].status) robot[i].Go(robot[i].SearchGood());
+  // fprintf(stderr, "Here Frame %u\n", Frameid);
+  // fprintf(stderr, "Done\n");
   for (unsigned i(0); i < robot_num; ++i)
     if (robot[i].status) {
       robot[i].Go(robot[i].SearchBerth());

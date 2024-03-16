@@ -56,11 +56,12 @@ void BerthRoute() {  // 1234:RLUD
 }
 
 void Init() {
+  memset(RobotFrame, 0x3f, sizeof(RobotFrame));
   for (unsigned i(1); i <= Size; ++i) {
     scanf("%s", ch[i] + 1);  // Map [1, n]
     for (unsigned j(1); j <= Size; ++j) {
       if (ch[i][j] == 'A') ch[i][j] = '.';
-      if ((ch[i][j] ^ '.') && (ch[i][j] ^ 'B')) RobotFrame[i][j] = 32767;
+      if ((ch[i][j] == '.') || (ch[i][j] == 'B')) RobotFrame[i][j] = 0;
     }
   }
   for (unsigned i(0); i < robot_num; i++) robot[i].Num = i;

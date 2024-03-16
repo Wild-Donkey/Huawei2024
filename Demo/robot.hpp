@@ -7,7 +7,7 @@ using namespace std;
 extern char ch[Size + 10][Size + 10];
 extern unsigned gds[Size + 10][Size + 10];
 extern short RobotFrame[Size + 10][Size + 10];
-extern unsigned ValAvr;
+extern unsigned ValAvr, Frameid;
 
 const char Delta[4][2] = {{0, 1}, {0, -1}, {-1, 0}, {1, 0}};
 const char Dire[5] = "RLUD";
@@ -23,6 +23,7 @@ struct Robot {
     y = startY;
   }
   void Go(unsigned Dire) {  // 0123: RLUD
+    // fprintf(stderr, "%u Go %u\n", Num, Dire);
     if (Dire > 3 || CntStep > 3) {
       CntStep = 0;
       return;
@@ -52,7 +53,8 @@ struct Robot {
     return berthRoute[x][y] - 1;
   }
   char SearchGood() {  // 0123: RLUD, 4: Stop
-    // fprintf(stderr, "%u SearchGood (%u, %u)\n", Num, x, y);
+    // fprintf(stderr, "Frame %u Bot %u SearchGood (%u, %u)\n", Frameid, Num, x,
+    // y);
     if (gds[x][y] >= ValAvr) {
       Get();
       Good = gds[x][y];
@@ -69,26 +71,23 @@ struct Robot {
       if (RobotFrame[Newx][Newy] < Frameid)
         Cur[Newx][Newy] = Order[i] + 1, a.push({Newx, Newy});
     }
+    // fprintf(stderr, "Here %u\n", Num);
     while (a.size()) {
       unsigned Curx(a.front().first), Cury(a.front().second);
       // fprintf(stderr, "Cur (%u, %u)\n", Curx, Cury);
       char CurDire(Cur[Curx][Cury]);
       if (gds[Curx][Cury] >= ValAvr) return CurDire - 1;
       a.pop();
-      if ((ch[Curx][Cury + 1] == '.' || ch[Curx][Cury + 1] == 'B') &&
-          (!Cur[Curx][Cury + 1])) {
+      if ((RobotFrame[Curx][Cury + 1] < Frameid) && (!Cur[Curx][Cury + 1])) {
         Cur[Curx][Cury + 1] = CurDire, a.push({Curx, Cury + 1});
       }
-      if ((ch[Curx][Cury - 1] == '.' || ch[Curx][Cury + 1] == 'B') &&
-          (!Cur[Curx][Cury - 1])) {
+      if ((RobotFrame[Curx][Cury - 1] < Frameid) && (!Cur[Curx][Cury - 1])) {
         Cur[Curx][Cury - 1] = CurDire, a.push({Curx, Cury - 1});
       }
-      if ((ch[Curx - 1][Cury] == '.' || ch[Curx][Cury + 1] == 'B') &&
-          (!Cur[Curx - 1][Cury])) {
+      if ((RobotFrame[Curx - 1][Cury] < Frameid) && (!Cur[Curx - 1][Cury])) {
         Cur[Curx - 1][Cury] = CurDire, a.push({Curx - 1, Cury});
       }
-      if ((ch[Curx + 1][Cury] == '.' || ch[Curx][Cury + 1] == 'B') &&
-          (!Cur[Curx + 1][Cury])) {
+      if ((RobotFrame[Curx + 1][Cury] < Frameid) && (!Cur[Curx + 1][Cury])) {
         Cur[Curx + 1][Cury] = CurDire, a.push({Curx + 1, Cury});
       }
     }

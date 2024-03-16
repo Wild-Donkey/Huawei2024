@@ -29,7 +29,7 @@ using namespace std;
 
 int main() {
   Init();
-  for (unsigned Frame = 1; Frame <= 15000; Frame = Frameid + 1) Play();
+  for (unsigned Frame = 0; Frame < 15000; Frame = Frameid + 1) Play();
 
   return 0;
 }
